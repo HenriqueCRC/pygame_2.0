@@ -1,6 +1,6 @@
 #Importando Bibliotecas
 import pygame, sys, time
-from sprites import BG
+from sprites import BG, Ground
 
 #Definindo Tamanho da Janela
 WINDOW_WIDTH=480
@@ -26,6 +26,7 @@ class Game:
 
         #Ajustes Sprite
         BG(self.all_sprites, self.scale_factor)
+        Ground(self.all_sprites, self.scale_factor)
 
     def run(self):
         last_time=time.time()
