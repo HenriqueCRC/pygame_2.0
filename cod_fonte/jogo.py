@@ -1,5 +1,6 @@
 #Importando Bibliotecas
 import pygame, sys, time
+from sprites import BG
 
 #Definindo Tamanho da Janela
 WINDOW_WIDTH=480
@@ -19,6 +20,13 @@ class Game:
         self.all_sprites=pygame.sprite.Group()
         self.collision_sprites=pygame.sprite.Group()
 
+        #Escala
+        bg_height=pygame.image.load('./img/ambiente/background.png').get_height()
+        self.scale_factor=WINDOW_HEIGHT/bg_height
+
+        #Ajustes Sprite
+        BG(self.all_sprites, self.scale_factor)
+
     def run(self):
         last_time=time.time()
         while True:
@@ -33,6 +41,8 @@ class Game:
                     sys.exit()
 
             #Lógica
+            self.all_sprites.update(dt)
+            self.all_sprites.draw(self.display_surface)
             pygame.display.update()
             self.clock.tick(FRAMERATE)
 if __name__=='__main__':
