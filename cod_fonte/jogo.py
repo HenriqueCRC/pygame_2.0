@@ -1,6 +1,6 @@
 #Importando Bibliotecas
 import pygame, sys, time
-from sprites import BG, Ground
+from sprites import BG, Ground, Plane
 
 #Definindo Tamanho da Janela
 WINDOW_WIDTH=480
@@ -27,6 +27,7 @@ class Game:
         #Ajustes Sprite
         BG(self.all_sprites, self.scale_factor)
         Ground(self.all_sprites, self.scale_factor)
+        self.plane=Plane(self.all_sprites, self.scale_factor/1.7)
 
     def run(self):
         last_time=time.time()
@@ -40,6 +41,12 @@ class Game:
                 if event.type==pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+                    if event.key==pygame.K_SPACE:
+                        self.plane.jump()
 
             #Lógica
             self.all_sprites.update(dt)

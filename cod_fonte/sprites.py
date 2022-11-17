@@ -5,6 +5,7 @@ WINDOW_WIDTH=480
 WINDOW_HEIGHT=800
 FRAMERATE=120
 
+#Classe Plano de Fundo
 class BG(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
@@ -27,6 +28,7 @@ class BG(pygame.sprite.Sprite):
 			self.pos.x = 0
 		self.rect.x = round(self.pos.x)
 
+#Classe Chão
 class Ground(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
@@ -47,3 +49,54 @@ class Ground(pygame.sprite.Sprite):
 		if self.rect.centerx <= 0:
 			self.pos.x = 0
 		self.rect.x = round(self.pos.x)
+
+#Classe Avião
+class Plane(pygame.sprite.Sprite):
+	def __init__(self,groups,scale_factor):
+		super().__init__(groups)
+
+		#Imagem 
+		self.import_frames(scale_factor)
+		self.frame_index = 0
+		self.image = self.frames[self.frame_index]
+
+		#Posição
+		self.rect = self.image.get_rect(midleft = (WINDOW_WIDTH / 20,WINDOW_HEIGHT / 2))
+		self.pos = pygame.math.Vector2(self.rect.topleft)
+
+		#Movimento
+		self.gravity = 600
+		self.direction = 0
+
+		self.mask = pygame.mask.from_surface(self.image)
+
+	def import_frames(self,scale_factor):
+		self.frames = []
+		for i in range(3):
+			surf = pygame.image.load(f'./img/personagem/red{i}.png').convert_alpha()
+			scaled_surface = pygame.transform.scale(surf,pygame.math.Vector2(surf.get_size())* scale_factor)
+			self.frames.append(scaled_surface)
+
+	def apply_gravity(self,dt):
+		self.direction += self.gravity * dt
+		self.pos.y += self.direction * dt
+		self.rect.y = round(self.pos.y)
+
+	def jump(self):
+		self.direction = -400
+
+	def animate(self,dt):
+		self.frame_index += 10 * dt
+		if self.frame_index >= len(self.frames):
+			self.frame_index = 0
+		self.image = self.frames[int(self.frame_index)]
+
+	def rotate(self):
+		rotated_plane = pygame.transform.rotozoom(self.image,-self.direction * 0.06,1)
+		self.image = rotated_plane
+		self.mask = pygame.mask.from_surface(self.image)
+
+	def update(self,dt):
+		self.apply_gravity(dt)
+		self.animate(dt)
+		self.rotate()
