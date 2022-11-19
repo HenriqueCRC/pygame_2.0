@@ -33,8 +33,9 @@ class Game:
         self.obstacle_timer = pygame.USEREVENT + 1 
         pygame.time.set_timer(self.obstacle_timer, 1400)
 
-    def collisions(self):
-        if pygame.sprite.spritecollide(self.plane,self.collision_sprites,False) :
+    def collisions(self): 
+        if pygame.sprite.spritecollide(self.plane,self.collision_sprites,False, pygame.sprite.collide_mask)\
+            or self.plane.rect.top <= 0 :
             pygame.quit()
             sys.exit()
 
@@ -68,4 +69,4 @@ class Game:
             self.clock.tick(FRAMERATE)
 if __name__=='__main__':
     game=Game()
-    game.run()     
+    game.run()         
