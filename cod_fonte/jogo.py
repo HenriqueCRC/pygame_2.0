@@ -56,7 +56,7 @@ class Game:
             self.plane.kill()
 
     def diplay_score(self): 
-         if self. active:
+         if self.active:
              self.score = (pygame.time.get_ticks() - self.start_offset) // 1000
              y = WINDOW_HEIGHT / 10
          else:
@@ -82,9 +82,6 @@ class Game:
                     if event.key==pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
-                    if event.key==pygame.K_SPACE:
-                        self.plane.jump()
-
                     if self.active:
                         self.plane.jump()
                     else:
@@ -92,7 +89,7 @@ class Game:
                         self.active = True   
                         self.start_offset = pygame.time.get_ticks()    
                 if event.type == self.obstacle_timer and self.active:
-                     Obstacle([self.all_sprites, self.collision_sprites], self.scale_factor * 1.1)
+                    Obstacle([self.all_sprites, self.collision_sprites], self.scale_factor * 1.1)
 
             #Lógica
             self.display_surface.fill('black')
