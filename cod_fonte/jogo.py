@@ -44,6 +44,9 @@ class Game:
     def collisions(self): 
         if pygame.sprite.spritecollide(self.plane,self.collision_sprites,False, pygame.sprite.collide_mask)\
             or self.plane.rect.top <= 0 :
+            for sprite in self.collision_sprites.sprites():
+                if sprite.sprite_type == 'obstacle' :  
+                    sprite.kill()
             self.active = False
             self.plane.kill()
 
@@ -82,7 +85,7 @@ class Game:
                     else:
                         self.plane = Plane(self.all_sprites, self.scale_factor / 1.7)
                         self.active = True          
-                if event.type == self.obstacle_timer:
+                if event.type == self.obstacle_timer and self.active:
                      Obstacle([self.all_sprites, self.collision_sprites], self.scale_factor * 1.1)
 
             #Lógica
