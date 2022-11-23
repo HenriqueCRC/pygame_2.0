@@ -2,5 +2,5 @@
 ## Integrantes
 * Pedro
 * Henrique
-## Link para o vídeo:
+## Link para o vídeo demonstração do jogo:
 https://youtu.be/hLzjU3Avw0Q
